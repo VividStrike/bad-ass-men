@@ -1,5 +1,5 @@
-const W = 500;
-const H = 500;
+const W = 1500;
+const H = 850;
 
 // for screen states
 const LOADING = 0;
@@ -8,7 +8,7 @@ const GAME = 2;
 const CONFIG = 3;
 
 // first screen state
-let current_screen = LOADING;
+let current_screen = GAME;
 
 // importing classes
 let factory = new Factory();
@@ -16,7 +16,7 @@ let logic = new Logic();
 let game = new Game();
 let loading = new Loading();
 let menu = new Menu();
-let config = new Config();
+let config = new Setting();
 
 function preload() {
 
@@ -28,7 +28,7 @@ function setup() {
     // setup band-aid
     game_setup = false;
     loading.setup();
-    menu.setup();
+    // menu.setup();
     config.setup();
 }
 
