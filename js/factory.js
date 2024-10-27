@@ -18,7 +18,7 @@ class Factory {
     createObject(x, y) {
         let object = new Sprite(x, y);
         object.color = 'red';
-        object.w = 50;
+        object.w = W/20;
         object.h = 50;
         return object;
     }

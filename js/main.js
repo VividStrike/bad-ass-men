@@ -1,3 +1,5 @@
+// const W = window.innerWidth; // 1500
+// const H = window.innerHeight*0.99; // 850
 const W = 1500;
 const H = 850;
 
@@ -23,7 +25,7 @@ function preload() {
 }
 
 function setup() {
-    new Canvas(W, H);
+    canvas = new Canvas(W, H);
 
     // setup band-aid
     game_setup = false;
