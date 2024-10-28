@@ -49,10 +49,8 @@ class Game {
     // Control
     apply_logic(object) {
         
-        object.moveTo(this.playerTwo[0].x, this.playerTwo[0].y, 10);
-
+        object.moveTo(this.playerTwo[0].x, this.playerTwo[0].y, 5);
         if (object.colliding(this.playerTwo[0])) {
-            object.collider = 'k';
             this.playerTwo[0].health -= object.damage;
         }
     }

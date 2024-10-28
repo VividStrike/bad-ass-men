@@ -30,6 +30,7 @@ function preload() {
     menu.preload();
     loading.preload();
     config.preload();
+    factory.preload();
 }
 
 function setup() {
