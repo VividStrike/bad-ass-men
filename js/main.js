@@ -1,3 +1,4 @@
+// import * as VAR from './variables.js';
 // const W = window.innerWidth; //1500
 // const H = window.innerHeight*0.99; //850
 const W = 1500; //1500
@@ -10,7 +11,7 @@ const GAME = 2;
 const CONFIG = 3;
 
 // first screen state
-let current_screen = LOADING;
+let current_screen = GAME;
 
 // importing classes
 let factory = new Factory();
@@ -20,7 +21,9 @@ let loading = new Loading();
 let menu = new Menu();
 let config = new Config();
 
+// check if game is already setup or not
 let game_setup = false;
+
 
 function preload() {
     game.preload();
@@ -31,7 +34,6 @@ function preload() {
 
 function setup() {
     canvas = new Canvas(W, H);
-
     // setup band-aid
     menu.setup();
     loading.setup();
