@@ -43,6 +43,28 @@ class Factory {
         return object;
     }
 
+    createTower(x, y, color, rotate) {
+        let object = new Sprite(x, y);
+        object.w = 50;
+        object.h = 100;
+        object.rotation = rotate;
+        // visual
+        object.draw = () => {
+            fill(color);
+            rect(0, 0, 50, 100);
+            textSize(20);
+            fill('black');
+            text(object.health, 0, 0);
+        }
+        object.collider = 's';
+
+        // stats
+        object.type = 1;
+        object.health = 100;
+
+        return object;
+    }
+
     createMeleeGuy(x, y, color) {
         let jointed;
         let object = new Sprite(x, y);

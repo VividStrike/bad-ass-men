@@ -45,15 +45,15 @@ class Game {
         this.playerOne.push(factory.createBase(100, H / 2, "blue"));
 
         this.playerOneTowers = new Group();
-        this.playerOneTowers.push(factory.createBase(300, H / 2 - 200, "blue"));
-        this.playerOneTowers.push(factory.createBase(300, H / 2 + 200, "blue"));
+        this.playerOneTowers.push(factory.createTower(300, H / 2 - 250, "blue", 45));
+        this.playerOneTowers.push(factory.createTower(300, H / 2 + 250, "blue", 315));
 
         this.playerTwo = new Group();
         this.playerTwo.push(factory.createBase(W - 100, H / 2, "red"));
 
         this.playerTwoTowers = new Group();
-        this.playerTwoTowers.push(factory.createBase(W - 300, H / 2 - 200, "red"))
-        this.playerTwoTowers.push(factory.createBase(W - 300, H / 2 + 200, "red"))
+        this.playerTwoTowers.push(factory.createTower(W - 300, H / 2 - 250, "red", 315))
+        this.playerTwoTowers.push(factory.createTower(W - 300, H / 2 + 250, "red", 45))
     }
 
 
