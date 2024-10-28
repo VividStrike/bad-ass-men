@@ -22,15 +22,15 @@ class Game {
 
         // put stuffs here
 
-        // if (mouse.presses('left')) {
-        //     this.playerOne.push(factory.createMeleeGuy(mouse.x, mouse.y, 'blue'));
-        // }
+         if (kb.presses('space')) {
+             this.playerOne.push(factory.createMeleeGuy(mouse.x, mouse.y, 'blue'));
+         }
         // if (mouse.presses('right')) {
         //     this.playerOne.push(factory.createRangeGuy(mouse.x, mouse.y, 'blue'));
         // }
         for (let i = 0; i < this.playerOne.length; i++) {
             if (this.playerOne[i].type = 2) {
-                // this.apply_logic(this.playerOne[i]);
+                 this.apply_logic(this.playerOne[i]);
             }
         }
 
