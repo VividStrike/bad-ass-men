@@ -49,11 +49,19 @@ class Game {
     }
 
     // Control
+    // Control
     apply_logic(object) {
+        let angle = atan2(this.playerTwo[0].y - object.position.y, this.playerTwo[0].x - object.position.x);
+        object.rotateTo(angle)
+        if (object.rotation = angle) {
+            object.direction = angle;
+            object.speed = 2;
 
-        object.moveTo(this.playerTwo[0].x, this.playerTwo[0].y, 5);
+        }
         if (object.colliding(this.playerTwo[0])) {
             this.playerTwo[0].health -= object.damage;
+            object.moveTowards(this.playerTwo[0].x, this.playerTwo[0].y, 0);
+            object.speed = 0;
         }
     }
 
