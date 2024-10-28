@@ -20,6 +20,7 @@ let game = new Game();
 let loading = new Loading();
 let menu = new Menu();
 let config = new Config();
+let control = new Control();
 
 // check if game is already setup or not
 let game_setup = false;

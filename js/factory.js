@@ -24,6 +24,8 @@ class Factory {
 
     createBase(x, y, color) {
         let object = new Sprite(x, y);
+        object.w = 100;
+        object.h = 100;
         // visual
         object.draw = () => {
             fill(color);
