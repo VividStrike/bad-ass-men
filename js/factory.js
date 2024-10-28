@@ -4,7 +4,7 @@ class Factory {
     }
 
     preload(){
-        this.genericswordguy = loadImage('/assets/genericsword.png');
+        // this.generic_sword_guy = loadImage('/assets/genericsword.png');
     }
 
     setup(){
@@ -43,14 +43,14 @@ class Factory {
 
     createMeleeGuy(x, y, color) {
         let jointed;
-        let object1 = new Sprite(x, y);
+        let object = new Sprite(x, y);
         let range = new Sprite(x, y);
 
         // visual
-        object1.img = this.genericswordguy;
-        object1.color = color;
-        object1.w = 20;
-        object1.h = 20;
+        // object.img = this.generic_sword_guy;
+        object.color = color;
+        object.w = 20;
+        object.h = 20;
         
         // stats
         range.w = 20;
@@ -59,7 +59,7 @@ class Factory {
         range.type = 2;
         range.damage = 10;
 
-        jointed = new GlueJoint(object1, range);
+        jointed = new GlueJoint(object, range);
 
         return range;
     }

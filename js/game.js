@@ -22,17 +22,19 @@ class Game {
 
         // put stuffs here
 
-        if (mouse.presses('left')) {
-            this.playerOne.push(factory.createMeleeGuy(mouse.x, mouse.y, 'blue'));
-        }
-        if (mouse.presses('right')) {
-            this.playerOne.push(factory.createRangeGuy(mouse.x, mouse.y, 'blue'));
-        }
+        // if (mouse.presses('left')) {
+        //     this.playerOne.push(factory.createMeleeGuy(mouse.x, mouse.y, 'blue'));
+        // }
+        // if (mouse.presses('right')) {
+        //     this.playerOne.push(factory.createRangeGuy(mouse.x, mouse.y, 'blue'));
+        // }
         for (let i = 0; i < this.playerOne.length; i++) {
             if (this.playerOne[i].type = 2) {
-                this.apply_logic(this.playerOne[i]);
+                // this.apply_logic(this.playerOne[i]);
             }
         }
+
+        this.shooting_physics();
     }
 
     // put functions here
@@ -48,14 +50,44 @@ class Game {
 
     // Control
     apply_logic(object) {
-        
+
         object.moveTo(this.playerTwo[0].x, this.playerTwo[0].y, 5);
         if (object.colliding(this.playerTwo[0])) {
             this.playerTwo[0].health -= object.damage;
         }
     }
 
-
+    shooting_physics() {
+        let mouse_dragged = false;
+        let source = this.playerOne[0];
+        if (source.mouse.presses()) {
+            this.index = this.playerOne.push(factory.createMeleeGuy(mouse.x, mouse.y, 'blue'));
+        }
+        let target = this.playerOne[this.index - 1];
+        if (source.mouse.dragging()) {
+            target.x = mouse.x;
+            target.y = mouse.y;
+            stroke('black');
+            strokeWeight(3);
+            line(source.x, source.y, target.x, target.y);
+            strokeWeight(1);
+            let distance = dist(source.x + 20, source.y, target.x, target.y)
+            if (distance > 150) {
+                distance = 150;
+            }
+            let angle = 0;
+            if (target.angleTo(target) > 0) {
+                angle = -Math.floor(target.angleTo(target));
+            } else if (target.angleTo(target) < 0) {
+                angle = -Math.floor(target.angleTo(target));
+            }
+            mouse_dragged = true;
+        }
+        if (mouse.released()) {
+            
+        }
+        console.log(mouse_dragged);
+    }
 
 
 
