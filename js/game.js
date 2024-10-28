@@ -22,15 +22,15 @@ class Game {
 
         // put stuffs here
 
-         if (kb.presses('space')) {
-             this.playerOne.push(factory.createMeleeGuy(mouse.x, mouse.y, 'blue'));
-         }
+        if (kb.presses('space')) {
+            this.playerOne.push(factory.createMeleeGuy(mouse.x, mouse.y, 'blue'));
+        }
         // if (mouse.presses('right')) {
         //     this.playerOne.push(factory.createRangeGuy(mouse.x, mouse.y, 'blue'));
         // }
-        for (let i = 0; i < this.playerOne.length; i++) {
+        for (let i = 1; i < this.playerOne.length; i++) {
             if (this.playerOne[i].type = 2) {
-                 this.apply_logic(this.playerOne[i]);
+                this.apply_logic(this.playerOne[i]);
             }
         }
 
@@ -44,11 +44,18 @@ class Game {
         this.playerOne = new Group();
         this.playerOne.push(factory.createBase(100, H / 2, "blue"));
 
+        this.playerOneTowers = new Group();
+        this.playerOneTowers.push(factory.createBase(300, H / 2 - 200, "blue"));
+        this.playerOneTowers.push(factory.createBase(300, H / 2 + 200, "blue"));
+
         this.playerTwo = new Group();
         this.playerTwo.push(factory.createBase(W - 100, H / 2, "red"));
+
+        this.playerTwoTowers = new Group();
+        this.playerTwoTowers.push(factory.createBase(W - 300, H / 2 - 200, "red"))
+        this.playerTwoTowers.push(factory.createBase(W - 300, H / 2 + 200, "red"))
     }
 
-    // Control
     // Control
     apply_logic(object) {
         let angle = atan2(this.playerTwo[0].y - object.position.y, this.playerTwo[0].x - object.position.x);
@@ -56,8 +63,8 @@ class Game {
         if (object.rotation = angle) {
             object.direction = angle;
             object.speed = 2;
-
         }
+        
         if (object.colliding(this.playerTwo[0])) {
             this.playerTwo[0].health -= object.damage;
             object.moveTowards(this.playerTwo[0].x, this.playerTwo[0].y, 0);
