@@ -61,4 +61,8 @@ class Control {
         }
         console.log(mouse_dragged);
     }
+
+    destroy_base() {
+        
+    }
 }

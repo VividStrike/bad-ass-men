@@ -3,15 +3,15 @@ class Factory {
 
     }
 
-    preload(){
+    preload() {
         // this.generic_sword_guy = loadImage('/assets/genericsword.png');
     }
 
-    setup(){
+    setup() {
 
     }
 
-    draw(){
+    draw() {
 
     }
 
@@ -27,13 +27,15 @@ class Factory {
         object.w = 100;
         object.h = 100;
         // visual
-        object.draw = () => {
-            fill(color);
-            rect(0, 0, 100, 100);
-            textSize(20);
-            fill('black');
-            text(object.health, 0, 0);
-        }
+        // object.draw = () => {
+        //     fill(color);
+        //     rect(0, 0, 100, 100);
+        //     textSize(20);
+        //     fill('black');
+        //     text(object.health, 0, 0);
+        // }
+        object.debug = true;
+        // object.layer = 3;
         object.collider = 's';
 
         // stats
@@ -49,14 +51,16 @@ class Factory {
         object.h = 100;
         object.rotation = rotate;
         // visual
-        object.draw = () => {
-            fill(color);
-            rect(0, 0, 50, 100);
-            textSize(20);
-            fill('black');
-            text(object.health, 0, 0);
-        }
+        // object.draw = () => {
+        //     fill(color);
+        //     rect(0, 0, 50, 100);
+        //     textSize(20);
+        //     fill('black');
+        //     text(object.health, 0, 0);
+        // }
         object.collider = 's';
+        // object.layer = 3;
+        object.debug = true;
 
         // stats
         object.type = 1;
@@ -66,26 +70,29 @@ class Factory {
     }
 
     createMeleeGuy(x, y, color) {
-        let jointed;
+        // let jointed;
         let object = new Sprite(x, y);
-        let range = new Sprite(x, y);
+        // let range = new Sprite(x, y);
 
         // visual
         // object.img = this.generic_sword_guy;
         object.color = color;
         object.w = 20;
         object.h = 20;
-        
+        object.type = 2;
+        object.damage = 10;
+        // object.layer = 3;
+        object.debug = true;
+
         // stats
-        range.w = 20;
-        range.visible = false;
-        range.h = 20;
-        range.type = 2;
-        range.damage = 10;
+        // range.d = 100;
+        // range.collider = 'k';
+        // range.visible = false;
+        // range.debug = true;
 
-        jointed = new GlueJoint(object, range);
+        // jointed = new GlueJoint(object, range);
 
-        return range;
+        return object;
     }
 
     createRangeGuy(x, y, color) {
@@ -97,7 +104,28 @@ class Factory {
         // stats
         object.type = 3;
         object.damage = 20;
+        // object.layer = 3;
+        return object;
+    }
 
+    createRange(x, y, range) {
+        let object = new Sprite(x, y);
+        object.d = range;
+        // object.collider = 'n';
+        object.debug = true;
+        // object.layer = 2;
+        return object;
+    }
+    
+    createNode(x, y) {
+        let object = new Sprite(x, y);
+        // visual
+        object.color = "green";
+        object.d = 20;
+        // object.collider = 'k';
+        object.debug = true;
+        // object.layer = 1;
+        
         return object;
     }
 }
