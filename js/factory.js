@@ -7,7 +7,7 @@ class Factory {
     }
 
     preload() {
-        // this.generic_sword_guy = loadImage('/assets/genericsword.png');
+        this.generic_sword_guy = loadImage('/assets/genericsword.png');
     }
 
     setup() {
@@ -38,7 +38,7 @@ class Factory {
         //     text(object.health, 0, 0);
         // }
         //object.debug = true;
-        // object.layer = 3;
+        object.layer = 3;
         object.collider = 's';
 
         // stats
@@ -62,7 +62,7 @@ class Factory {
         //     text(object.health, 0, 0);
         // }
         object.collider = 's';
-        // object.layer = 3;
+        object.layer = 3;
         //object.debug = true;
 
         // stats
@@ -78,7 +78,7 @@ class Factory {
         // let range = new Sprite(x, y);
 
         // visual
-        // object.img = this.generic_sword_guy;
+        object.img = this.generic_sword_guy;
         object.color = color;
         object.w = 20;
         object.h = 20;
@@ -114,9 +114,9 @@ class Factory {
     createRange(x, y, range) {
         let object = new Sprite(x, y);
         object.d = range;
-        object.collider = 'n';
+        object.collider = 'k';
         //object.debug = true;
-        object.layer = 2;
+        object.layer = 4;
         object.type = 4;
         return object;
     }

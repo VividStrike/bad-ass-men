@@ -37,9 +37,9 @@ class Game {
                 
                 this.playerOne[i+1].x = this.playerOne[i].x;
                 this.playerOne[i+1].y = this.playerOne[i].y;
+                this.playerOne[i+1].overlaps (this.playerOne)
             }
         }
-
         control.shooting_physics();
     }
 

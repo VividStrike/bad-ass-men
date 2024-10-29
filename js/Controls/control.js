@@ -43,6 +43,14 @@ class Control {
         }
     }
 
+    apply_overlap(object){
+        if (object.overlaps(game.playerTwo[0])){
+            game.playerTwo[0].health -= object.damage;
+            object.moveTowards(game.playerTwo[0].x, game.playerTwo[0].y, 0);
+            object.speed = 0;
+        }
+    }
+
     movement(target, target_index, object) {
         let angle = atan2(target[target_index].y - object.position.y, target[target_index].x - object.position.x);
         object.rotateTo(angle)
