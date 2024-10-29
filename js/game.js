@@ -24,14 +24,19 @@ class Game {
 
         if (kb.presses('space')) {
             let index = this.playerOne.push(factory.createMeleeGuy(mouse.x, mouse.y, 'blue'));
-            // this.playerOne.push(factory.createRange(this.playerOne[index-1].x, this.playerOne[index-1].y, 100));
+            this.playerOne.push(factory.createRange(this.playerOne[index-1].x, this.playerOne[index-1].y, 100));
         }
+
+
         // if (mouse.presses('right')) {
         //     this.playerOne.push(factory.createRangeGuy(mouse.x, mouse.y, 'blue'));
         // }
         for (let i = 3; i < this.playerOne.length; i++) {
-            if (this.playerOne[i].type = 2) {
+            if (this.playerOne[i].type == 2) {
                 control.apply_logic(this.playerOne[i]);
+                
+                this.playerOne[i+1].x = this.playerOne[i].x;
+                this.playerOne[i+1].y = this.playerOne[i].y;
             }
         }
 
@@ -61,10 +66,16 @@ class Game {
         this.nodes = new Group();
         // index 0 P1 Base
         this.nodes.push(factory.createNode(170, H / 2));
-        // index 1 P1 Bot tower
-        this.nodes.push(factory.createNode(330, H / 2 + 220));
-        // index 2 P1 Top tower
-        this.nodes.push(factory.createNode(330, H / 2 - 220));
+
+        let distance = dist(this.playerOne[1].x, this.playerOne[1].y, this.playerTwo[1].x, this.playerTwo[1].y);
+        for (let i = 30; i < distance; i += distance / 15) {
+            this.nodes.push(factory.createNode(this.playerOne[1].x + i, this.playerOne[1].y + 30));
+        }
+        for (let i = 30; i < distance; i += distance / 15) {
+            this.nodes.push(factory.createNode(this.playerOne[2].x + i, this.playerOne[2].y - 30));
+        }
+
+        this.nodes.push(factory.createNode(W - 170, H / 2));
 
         // let distance = (this.playerOne[1].x)
 

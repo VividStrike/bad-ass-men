@@ -1,3 +1,6 @@
+let layer1;
+let layer2;
+
 class Factory {
     constructor() {
 
@@ -34,7 +37,7 @@ class Factory {
         //     fill('black');
         //     text(object.health, 0, 0);
         // }
-        object.debug = true;
+        //object.debug = true;
         // object.layer = 3;
         object.collider = 's';
 
@@ -60,7 +63,7 @@ class Factory {
         // }
         object.collider = 's';
         // object.layer = 3;
-        object.debug = true;
+        //object.debug = true;
 
         // stats
         object.type = 1;
@@ -81,8 +84,8 @@ class Factory {
         object.h = 20;
         object.type = 2;
         object.damage = 10;
-        // object.layer = 3;
-        object.debug = true;
+        //object.debug = true;
+        object.target = 0;
 
         // stats
         // range.d = 100;
@@ -111,9 +114,10 @@ class Factory {
     createRange(x, y, range) {
         let object = new Sprite(x, y);
         object.d = range;
-        // object.collider = 'n';
-        object.debug = true;
-        // object.layer = 2;
+        object.collider = 'n';
+        //object.debug = true;
+        object.layer = 2;
+        object.type = 4;
         return object;
     }
     
@@ -122,8 +126,8 @@ class Factory {
         // visual
         object.color = "green";
         object.d = 20;
-        // object.collider = 'k';
-        object.debug = true;
+        object.collider = 'n';
+        //object.debug = true;
         // object.layer = 1;
         
         return object;

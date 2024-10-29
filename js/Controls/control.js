@@ -17,16 +17,38 @@ class Control {
 
     // Control
     apply_logic(object) {
-        let angle = atan2(game.playerTwo[0].y - object.position.y, game.playerTwo[0].x - object.position.x);
-        object.rotateTo(angle)
-        if (object.rotation = angle) {
-            object.direction = angle;
-            object.speed = 2;
+        // let angle = atan2(game.playerTwo[0].y - object.position.y, game.playerTwo[0].x - object.position.x);
+        // object.rotateTo(angle)
+        // if (object.rotation = angle) {
+        //     object.direction = angle;
+        //     object.speed = 2;
+        // }
+        if (game.nodes.length -1 == object.target) {
+            this.movement(game.playerTwo, 0, object);
+        } else {
+            if (object.overlaps(game.nodes[object.target])) {
+                object.target += 1;
+                console.log(object.target);
+            }
+            if (game.nodes.length == object.target) {
+                object.target = game.nodes.length -1;
+            }
+            this.movement(game.nodes, object.target, object);
         }
+
         if (object.colliding(game.playerTwo[0])) {
             game.playerTwo[0].health -= object.damage;
             object.moveTowards(game.playerTwo[0].x, game.playerTwo[0].y, 0);
             object.speed = 0;
+        }
+    }
+
+    movement(target, target_index, object) {
+        let angle = atan2(target[target_index].y - object.position.y, target[target_index].x - object.position.x);
+        object.rotateTo(angle)
+        if (object.rotation = angle) {
+            object.direction = angle;
+            object.speed = 2;
         }
     }
 
