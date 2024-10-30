@@ -36,7 +36,7 @@ class Control {
         }
 
         if (closest_enemy != null) {
-            this.move_to_enemy(closest_enemy, object);
+            this.movement_logic(closest_enemy, object);
             if (object.colliding(closest_enemy)) {
                 // closest_enemy.health -= object.damage;
                 object.moveTowards(closest_enemy.x, closest_enemy.y, 0);
@@ -61,10 +61,12 @@ class Control {
                     closest_node = node;
                 }
             }
-            this.move_to_enemy(closest_node, object);
+            this.movement_logic(closest_node, object);
 
             if (object.overlaps(closest_node)) {
+                // let current_node = closest_node;
                 closest_node_distance = Infinity;
+                console.log()
 
                 // for (let node of game.nodes) {
                 //     let distance = dist(object.x, object.y, node.x, node.y);
@@ -74,7 +76,7 @@ class Control {
                 //     }
                 // }
 
-                // this.move_to_enemy(closest_node, object);
+                // this.movement_logic(closest_node, object);
             }
             // if (game.nodes.length == object.target) {
             //     object.target = game.nodes.length - 1;
@@ -92,16 +94,7 @@ class Control {
         }
     }
 
-    move_on_nodes(target, target_index, object) {
-        let angle = atan2(target[target_index].y - object.position.y, target[target_index].x - object.position.x);
-        object.rotateTo(angle)
-        if (object.rotation = angle) {
-            object.direction = angle;
-            object.speed = 2;
-        }
-    }
-
-    move_to_enemy(target, object) {
+    movement_logic(target, object) {
         let angle = atan2(target.y - object.position.y, target.x - object.position.x);
         object.rotateTo(angle)
         stroke('red');

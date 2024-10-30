@@ -123,16 +123,17 @@ class Factory {
         return object;
     }
     
-    createNode(x, y) {
+    createNode(x, y, side, id) {
         let object = new Sprite(x, y);
         // visual
         object.color = "green";
-        object.d = 10;
-        object.collider = 'n';
+        object.d = 50;
+        object.collider = 'k';
         // object.visible = false;
         object.debug = true;
-        // object.side = side;
+        object.side = side;
         // object.layer = 1;
+        object.id = id;
         
         return object;
     }

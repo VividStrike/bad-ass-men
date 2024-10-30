@@ -24,17 +24,25 @@ class Game {
         this.enable_game_buttons();
         this.bind_button_events();
 
+        // testing
+        for (let node of this.nodes) {
+            if (node.mouse.presses('right')) {
+                console.log("side: " + node.side + ', ' + "id: " + node.id);
+            }
+        }
+        // resume this later ----------------------------------------
+
         // put stuffs here
         // if (mouse.x < W/2) {
-        //     if (kb.presses('q')) {
-        //         let index = this.playerOne.push(factory.createMeleeGuy(mouse.x, mouse.y, 'blue'));
-        //         // this.playerOne.push(factory.createRange(this.playerOne[index-1].x, this.playerOne[index-1].y, 100));
-        //     }
+        if (kb.presses('q')) {
+            let index = this.playerOne.push(factory.createMeleeGuy(mouse.x, mouse.y, 'blue'));
+            // this.playerOne.push(factory.createRange(this.playerOne[index-1].x, this.playerOne[index-1].y, 100));
+        }
         // // } else if (mouse.x >= W/2) {
-            if (kb.presses('e')) {
-                let index = this.playerTwo.push(factory.createMeleeGuy(mouse.x, mouse.y, 'red'));
-                // this.playerOne.push(factory.createRange(this.playerOne[index-1].x, this.playerOne[index-1].y, 100));
-            }
+        if (kb.presses('e')) {
+            let index = this.playerTwo.push(factory.createMeleeGuy(mouse.x, mouse.y, 'red'));
+            // this.playerOne.push(factory.createRange(this.playerOne[index-1].x, this.playerOne[index-1].y, 100));
+        }
         // }
 
         // Check for space press and toggle behavior based on p1_current_value_check
@@ -62,12 +70,12 @@ class Game {
         for (let i = 3; i < this.playerOne.length; i++) {
             if (this.playerOne[i].type == 2) {
                 control.apply_logic(this.playerOne[i], this.playerTwo);
-                
+
                 // this.playerOne[i+1].x = this.playerOne[i].x;
                 // this.playerOne[i+1].y = this.playerOne[i].y;
                 // this.playerOne[i+1].overlaps(this.playerOne);
 
-                
+
                 // for (let j = 0; j < this.playerTwo.length; j++ ) {
                 //     if (this.playerOne[4].overlaps(this.playerTwo[0])) {
                 //         console.log(j);
@@ -101,17 +109,24 @@ class Game {
 
         this.nodes = new Group();
         // index 0 P1 Base
-        this.nodes.push(factory.createNode(170, H / 2));
+        this.nodes.push(factory.createNode(170, H / 2, 0, 0));
 
         let distance = dist(this.playerOne[1].x, this.playerOne[1].y, this.playerTwo[1].x, this.playerTwo[1].y);
+        let top_counter = 0;
+        let bottom_counter = 0;
+        // for (let i = 30; i < distance; i += distance / 15) {
         for (let i = 30; i < distance; i += distance / 15) {
-            this.nodes.push(factory.createNode(this.playerOne[1].x + i, this.playerOne[1].y + 30));
+            this.nodes.push(factory.createNode(this.playerOne[1].x + i, this.playerOne[1].y + 30, 1, 1 + top_counter));
+            top_counter++;
         }
         for (let i = 30; i < distance; i += distance / 15) {
-            this.nodes.push(factory.createNode(this.playerOne[2].x + i, this.playerOne[2].y - 30));
+            this.nodes.push(factory.createNode(this.playerOne[2].x + i, this.playerOne[2].y - 30, 2, 1 + bottom_counter));
+            bottom_counter++;
         }
 
-        this.nodes.push(factory.createNode(W - 170, H / 2));
+        this.nodes.push(factory.createNode(W - 170, H / 2, 0, 0));
+
+
 
 
         // this.nodesTop = new Group();
