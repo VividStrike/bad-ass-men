@@ -87,6 +87,7 @@ class Factory {
         object.damage = 10;
         //object.debug = true;
         object.target = 0;
+        object.range = 200;
 
         // stats
         // range.d = 100;
@@ -130,6 +131,7 @@ class Factory {
         object.collider = 'n';
         // object.visible = false;
         object.debug = true;
+        // object.side = side;
         // object.layer = 1;
         
         return object;

@@ -10,7 +10,11 @@ class Game {
     setup() {
         this.create_buttons();
         this.spawn_sprites();
-        // console.log(this.playerTwo[0]);
+
+        this.p1_current_value_x = 200;
+        this.p1_current_value_y = height / 2 + 200; // Use 'height' instead of 'H' for clarity
+
+        this.p1_current_value_check = true;
     }
 
     draw() {
@@ -22,16 +26,34 @@ class Game {
 
         // put stuffs here
         // if (mouse.x < W/2) {
-            if (kb.presses('q')) {
-                let index = this.playerOne.push(factory.createMeleeGuy(mouse.x, mouse.y, 'blue'));
-                // this.playerOne.push(factory.createRange(this.playerOne[index-1].x, this.playerOne[index-1].y, 100));
-            }
-        // } else if (mouse.x >= W/2) {
+        //     if (kb.presses('q')) {
+        //         let index = this.playerOne.push(factory.createMeleeGuy(mouse.x, mouse.y, 'blue'));
+        //         // this.playerOne.push(factory.createRange(this.playerOne[index-1].x, this.playerOne[index-1].y, 100));
+        //     }
+        // // } else if (mouse.x >= W/2) {
             if (kb.presses('e')) {
                 let index = this.playerTwo.push(factory.createMeleeGuy(mouse.x, mouse.y, 'red'));
                 // this.playerOne.push(factory.createRange(this.playerOne[index-1].x, this.playerOne[index-1].y, 100));
             }
         // }
+
+        // Check for space press and toggle behavior based on p1_current_value_check
+        if (kb.presses("space")) {
+            if (this.p1_current_value_check) {
+                this.p1_current_value_y -= 400; // Move up
+                this.p1_current_value_check = false; // Toggle state
+            } else {
+                this.p1_current_value_y += 400; // Move down
+                this.p1_current_value_check = true; // Toggle state
+            }
+        }
+
+        if (mouse.presses('left')) {
+            let index = this.playerOne.push(factory.createMeleeGuy(this.p1_current_value_x, this.p1_current_value_y, 'blue'));
+            // this.playerOne.push(factory.createRange(this.playerOne[index - 1].x, this.playerOne[index - 1].y, 100));
+            // console.log(current_value);
+        }
+
 
 
         // if (mouse.presses('right')) {
@@ -91,13 +113,29 @@ class Game {
 
         this.nodes.push(factory.createNode(W - 170, H / 2));
 
-        // let distance = (this.playerOne[1].x)
 
-        // for (let i = 0; i < this.nodes.length; i ++) {
-        //     for (let j = 0; j < this.playerOne.length; j++) {
-        //         this.nodes[i].overlaps(this.playerOne[j]);
-        //     }
+        // this.nodesTop = new Group();
+
+        // let distance = dist(this.playerOne[1].x, this.playerOne[1].y, this.playerTwo[1].x, this.playerTwo[1].y);
+        // for (let i = 30; i < distance; i += distance / 15) {
+        //     this.nodesTop.push(factory.createNode(this.playerOne[1].x + i, this.playerOne[1].y + 30, 1));
         // }
+
+
+        // this.nodesBottom = new Group();
+        // for (let i = 30; i < distance; i += distance / 15) {
+        //     this.nodesBottom.push(factory.createNode(this.playerOne[2].x + i, this.playerOne[2].y - 30, 2));
+        // }
+
+
+        // this.nodeP1Base = new Group();
+        // this.nodeP1Base.push(factory.createNode(170, H / 2, 1));
+
+
+        // this.nodeP2Base = new Group();
+        // this.nodeP2Base.push(factory.createNode(W - 170, H / 2, 2));
+
+        // let distance = (this.playerOne[1].x)
     }
 
 
