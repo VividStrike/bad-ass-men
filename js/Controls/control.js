@@ -16,35 +16,57 @@ class Control {
     }
 
     // Control
-    apply_logic(object) {
+    apply_logic(object, enemies) {
         // let angle = atan2(game.playerTwo[0].y - object.position.y, game.playerTwo[0].x - object.position.x);
         // object.rotateTo(angle)
         // if (object.rotation = angle) {
         //     object.direction = angle;
         //     object.speed = 2;
         // }
-        if (game.nodes.length -1 == object.target) {
-            this.movement(game.playerTwo, 0, object);
-        } else {
-            if (object.overlaps(game.nodes[object.target])) {
-                object.target += 1;
-                console.log(object.target);
+
+        // if (game.nodes.length -1 == object.target) {
+        //     this.movement(game.playerTwo, 0, object);
+        // } else {
+        //     if (object.overlaps(game.nodes[object.target])) {
+        //         object.target += 1;
+        //         // console.log(object.target);
+        //     }
+        //     if (game.nodes.length == object.target) {
+        //         object.target = game.nodes.length -1;
+        //     }
+        //     this.movement(game.nodes, object.target, object);
+        // }
+
+        // Find closest objectTwo
+        let closest_enemy = null;
+        let closest_distance = Infinity;
+
+        for (let enemy of enemies) {
+            let distance = dist(object.x, object.y, enemy.x, enemy.y);
+
+            if (distance < closest_distance) {
+                closest_distance = distance;
+                closest_enemy = enemy;
             }
-            if (game.nodes.length == object.target) {
-                object.target = game.nodes.length -1;
-            }
-            this.movement(game.nodes, object.target, object);
         }
 
-        if (object.colliding(game.playerTwo[0])) {
-            game.playerTwo[0].health -= object.damage;
-            object.moveTowards(game.playerTwo[0].x, game.playerTwo[0].y, 0);
+        if (closest_enemy != null) {
+            this.movement2(closest_enemy, object);
+        }
+
+        if (object.colliding(closest_enemy)) {
+            // closest_enemy.health -= object.damage;
+            object.moveTowards(closest_enemy.x, closest_enemy.y, 0);
             object.speed = 0;
+            if (object.collides(closest_enemy)) {
+                object.remove();
+                closest_enemy.remove();
+            }
         }
     }
 
-    apply_overlap(object){
-        if (object.overlaps(game.playerTwo[0])){
+    apply_overlap(object) {
+        if (object.overlaps(game.playerTwo[0])) {
             game.playerTwo[0].health -= object.damage;
             object.moveTowards(game.playerTwo[0].x, game.playerTwo[0].y, 0);
             object.speed = 0;
@@ -54,6 +76,20 @@ class Control {
     movement(target, target_index, object) {
         let angle = atan2(target[target_index].y - object.position.y, target[target_index].x - object.position.x);
         object.rotateTo(angle)
+        if (object.rotation = angle) {
+            object.direction = angle;
+            object.speed = 2;
+        }
+    }
+
+    movement2(target, object) {
+        let angle = atan2(target.y - object.position.y, target.x - object.position.x);
+        object.rotateTo(angle)
+        stroke('red');
+        strokeWeight(3);
+        line(object.x, object.y, target.x, target.y);
+        stroke('black');
+        strokeWeight(1);
         if (object.rotation = angle) {
             object.direction = angle;
             object.speed = 2;
@@ -89,10 +125,10 @@ class Control {
         if (mouse.released()) {
 
         }
-        console.log(mouse_dragged);
+        // console.log(mouse_dragged);
     }
 
     destroy_base() {
-        
+
     }
 }

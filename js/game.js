@@ -8,24 +8,30 @@ class Game {
     }
 
     setup() {
-        // this.create_buttons();
-
+        this.create_buttons();
         this.spawn_sprites();
+        // console.log(this.playerTwo[0]);
     }
 
     draw() {
         background('gray');
 
         // add button functions
-        // this.enable_game_buttons();
-        // this.bind_button_events();
+        this.enable_game_buttons();
+        this.bind_button_events();
 
         // put stuffs here
-
-        if (kb.presses('space')) {
-            let index = this.playerOne.push(factory.createMeleeGuy(mouse.x, mouse.y, 'blue'));
-            this.playerOne.push(factory.createRange(this.playerOne[index-1].x, this.playerOne[index-1].y, 100));
-        }
+        // if (mouse.x < W/2) {
+            if (kb.presses('q')) {
+                let index = this.playerOne.push(factory.createMeleeGuy(mouse.x, mouse.y, 'blue'));
+                // this.playerOne.push(factory.createRange(this.playerOne[index-1].x, this.playerOne[index-1].y, 100));
+            }
+        // } else if (mouse.x >= W/2) {
+            if (kb.presses('e')) {
+                let index = this.playerTwo.push(factory.createMeleeGuy(mouse.x, mouse.y, 'red'));
+                // this.playerOne.push(factory.createRange(this.playerOne[index-1].x, this.playerOne[index-1].y, 100));
+            }
+        // }
 
 
         // if (mouse.presses('right')) {
@@ -33,14 +39,22 @@ class Game {
         // }
         for (let i = 3; i < this.playerOne.length; i++) {
             if (this.playerOne[i].type == 2) {
-                control.apply_logic(this.playerOne[i]);
+                control.apply_logic(this.playerOne[i], this.playerTwo);
                 
-                this.playerOne[i+1].x = this.playerOne[i].x;
-                this.playerOne[i+1].y = this.playerOne[i].y;
-                this.playerOne[i+1].overlaps (this.playerOne)
+                // this.playerOne[i+1].x = this.playerOne[i].x;
+                // this.playerOne[i+1].y = this.playerOne[i].y;
+                // this.playerOne[i+1].overlaps(this.playerOne);
+
+                
+                // for (let j = 0; j < this.playerTwo.length; j++ ) {
+                //     if (this.playerOne[4].overlaps(this.playerTwo[0])) {
+                //         console.log(j);
+                //     //     control.movement(this.playerTwo, j, this.playerOne[i+1]);
+                //     }
+                // }
             }
         }
-        control.shooting_physics();
+        // control.shooting_physics();
     }
 
     // put functions here
@@ -111,7 +125,9 @@ class Game {
             game_setup = false;
 
             // remove all sprite groups
-            this.object.remove();
+            this.playerOne.remove();
+            this.playerTwo.remove();
+            this.nodes.remove();
 
 
         }
