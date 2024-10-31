@@ -8,44 +8,62 @@ class Game {
     }
 
     setup() {
+        this.top_counter = 0;
+        
         this.create_buttons();
-        this.spawn_sprites();
-
+        model.spawn_sprites();
+        
         this.p1_current_value_x = 200;
         this.p1_current_value_y = height / 2 + 200; // Use 'height' instead of 'H' for clarity
-
+        
         this.p1_current_value_check = true;
     }
-
+    
     draw() {
         background('gray');
+        
+        // model.spawn_nodes1(, , 10, this.top_counter);
+        // model.spawn_nodes1(this.topRight, this.bottomRight, 4, this.top_counter);
 
         // add button functions
         this.enable_game_buttons();
         this.bind_button_events();
 
-        // testing
-        for (let node of this.nodes) {
-            if (node.mouse.presses('right')) {
-                console.log("side: " + node.side + ', ' + "id: " + node.id);
-            }
-        }
-        // resume this later ----------------------------------------
+        // Middle Line
+        stroke('green');
+        strokeWeight(3);
+        line(W / 2, 0, W / 2, H);
+        stroke('black');
+        strokeWeight(1);
 
-        // put stuffs here
-        // if (mouse.x < W/2) {
+        // Test Spawning Units
         if (kb.presses('q')) {
-            let index = this.playerOne.push(factory.createMeleeGuy(mouse.x, mouse.y, 'blue'));
-            // this.playerOne.push(factory.createRange(this.playerOne[index-1].x, this.playerOne[index-1].y, 100));
+            let index = model.playerOne.push(factory.createMeleeGuy(mouse.x, mouse.y, 'blue'));
+            // model.playerOne.push(factory.createRange(model.playerOne[index-1].x, model.playerOne[index-1].y, 100));
         }
-        // // } else if (mouse.x >= W/2) {
+        if (kb.presses('w')) {
+            let index = model.playerOne.push(factory.createRangeGuy(mouse.x, mouse.y, 'blue'));
+            // model.playerOne.push(factory.createRange(model.playerOne[index-1].x, model.playerOne[index-1].y, 100));
+        }
         if (kb.presses('e')) {
-            let index = this.playerTwo.push(factory.createMeleeGuy(mouse.x, mouse.y, 'red'));
-            // this.playerOne.push(factory.createRange(this.playerOne[index-1].x, this.playerOne[index-1].y, 100));
+            let index = model.playerTwo.push(factory.createMeleeGuy(mouse.x, mouse.y, 'red'));
+            // model.playerOne.push(factory.createRange(model.playerOne[index-1].x, model.playerOne[index-1].y, 100));
         }
-        // }
 
-        // Check for space press and toggle behavior based on p1_current_value_check
+
+        stroke('green');
+        strokeWeight(3);
+        // line(model.playerOne[0].x + 70, model.playerOne[0].y - 20, model.playerOne[1].x + 30, model.playerOne[1].y + 30);
+        // line(W / 2, 0, W / 2, H);
+        // line(W / 2, 0, W / 2, H);
+        // Draw trapezoid outline
+        // line(this.bottomLeft.x, this.bottomLeft.y, this.topLeft.x, this.topLeft.y);
+        // line(this.topLeft.x, this.topLeft.y, this.topRight.x, this.topRight.y);
+        // line(this.topRight.x, this.topRight.y, this.bottomRight.x, this.bottomRight.y);
+        stroke('black');
+        strokeWeight(1);
+
+        // // Check for space press and toggle behavior based on p1_current_value_check
         if (kb.presses("space")) {
             if (this.p1_current_value_check) {
                 this.p1_current_value_y -= 400; // Move up
@@ -56,103 +74,38 @@ class Game {
             }
         }
 
-        if (mouse.presses('left')) {
-            let index = this.playerOne.push(factory.createMeleeGuy(this.p1_current_value_x, this.p1_current_value_y, 'blue'));
-            // this.playerOne.push(factory.createRange(this.playerOne[index - 1].x, this.playerOne[index - 1].y, 100));
-            // console.log(current_value);
-        }
+        // if (mouse.presses('left')) {
+        //     let index = model.playerOne.push(factory.createMeleeGuy(this.p1_current_value_x, this.p1_current_value_y, 'blue'));
+        //     // this.playerOne.push(factory.createRange(this.playerOne[index - 1].x, this.playerOne[index - 1].y, 100));
+        //     // console.log(current_value);
+        // }
 
 
 
         // if (mouse.presses('right')) {
         //     this.playerOne.push(factory.createRangeGuy(mouse.x, mouse.y, 'blue'));
         // }
-        for (let i = 3; i < this.playerOne.length; i++) {
-            if (this.playerOne[i].type == 2) {
-                control.apply_logic(this.playerOne[i], this.playerTwo);
+        for (let i = 3; i < model.playerOne.length; i++) {
+            if (model.playerOne[i].type == 2) {
+                control.apply_logic_to_units(model.playerOne[i], model.playerTwo, model.nodes);
 
-                // this.playerOne[i+1].x = this.playerOne[i].x;
-                // this.playerOne[i+1].y = this.playerOne[i].y;
-                // this.playerOne[i+1].overlaps(this.playerOne);
+                // model.playerOne[i+1].x = model.playerOne[i].x;
+                // model.playerOne[i+1].y = model.playerOne[i].y;
+                // model.playerOne[i+1].overlaps(model.playerOne);
 
 
-                // for (let j = 0; j < this.playerTwo.length; j++ ) {
-                //     if (this.playerOne[4].overlaps(this.playerTwo[0])) {
+                // for (let j = 0; j < model.playerTwo.length; j++ ) {
+                //     if (model.playerOne[4].overlaps(model.playerTwo[0])) {
                 //         console.log(j);
-                //     //     control.movement(this.playerTwo, j, this.playerOne[i+1]);
+                //     //     control.movement(model.playerTwo, j, model.playerOne[i+1]);
                 //     }
                 // }
             }
         }
-        // control.shooting_physics();
+
+
+        // control.slingshot_logic();
     }
-
-    // put functions here
-
-    // Model
-    spawn_sprites() {
-        this.playerOne = new Group();
-        // index 0
-        this.playerOne.push(factory.createBase(100, H / 2, "blue"));
-        // index 1
-        this.playerOne.push(factory.createTower(300, H / 2 - 250, "blue", 45));
-        // index 2
-        this.playerOne.push(factory.createTower(300, H / 2 + 250, "blue", 315));
-
-        this.playerTwo = new Group();
-        // index 0
-        this.playerTwo.push(factory.createBase(W - 100, H / 2, "red"));
-        // index 1
-        this.playerTwo.push(factory.createTower(W - 300, H / 2 - 250, "red", 315));
-        // index 2
-        this.playerTwo.push(factory.createTower(W - 300, H / 2 + 250, "red", 45));
-
-        this.nodes = new Group();
-        // index 0 P1 Base
-        this.nodes.push(factory.createNode(170, H / 2, 0, 0));
-
-        let distance = dist(this.playerOne[1].x, this.playerOne[1].y, this.playerTwo[1].x, this.playerTwo[1].y);
-        let top_counter = 0;
-        let bottom_counter = 0;
-        // for (let i = 30; i < distance; i += distance / 15) {
-        for (let i = 30; i < distance; i += distance / 15) {
-            this.nodes.push(factory.createNode(this.playerOne[1].x + i, this.playerOne[1].y + 30, 1, 1 + top_counter));
-            top_counter++;
-        }
-        for (let i = 30; i < distance; i += distance / 15) {
-            this.nodes.push(factory.createNode(this.playerOne[2].x + i, this.playerOne[2].y - 30, 2, 1 + bottom_counter));
-            bottom_counter++;
-        }
-
-        this.nodes.push(factory.createNode(W - 170, H / 2, 0, 0));
-
-
-
-
-        // this.nodesTop = new Group();
-
-        // let distance = dist(this.playerOne[1].x, this.playerOne[1].y, this.playerTwo[1].x, this.playerTwo[1].y);
-        // for (let i = 30; i < distance; i += distance / 15) {
-        //     this.nodesTop.push(factory.createNode(this.playerOne[1].x + i, this.playerOne[1].y + 30, 1));
-        // }
-
-
-        // this.nodesBottom = new Group();
-        // for (let i = 30; i < distance; i += distance / 15) {
-        //     this.nodesBottom.push(factory.createNode(this.playerOne[2].x + i, this.playerOne[2].y - 30, 2));
-        // }
-
-
-        // this.nodeP1Base = new Group();
-        // this.nodeP1Base.push(factory.createNode(170, H / 2, 1));
-
-
-        // this.nodeP2Base = new Group();
-        // this.nodeP2Base.push(factory.createNode(W - 170, H / 2, 2));
-
-        // let distance = (this.playerOne[1].x)
-    }
-
 
 
     // Button Related Functions
@@ -178,9 +131,9 @@ class Game {
             game_setup = false;
 
             // remove all sprite groups
-            this.playerOne.remove();
-            this.playerTwo.remove();
-            this.nodes.remove();
+            model.playerOne.remove();
+            model.playerTwo.remove();
+            model.nodes.remove();
 
 
         }

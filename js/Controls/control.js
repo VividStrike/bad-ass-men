@@ -16,74 +16,100 @@ class Control {
     }
 
     // Control
-    apply_logic(object, enemies) {
+    apply_logic_to_units(object, enemies, nodes) {
+        // switch between defense and attack mode
+        this.mode_switch_logic(object);
 
+        // drawing indicator for range
+        noFill();
+        stroke('red');
+        strokeWeight(3);
+        circle(object.x, object.y, object.current_search_range * 2);
+        stroke('black');
+        strokeWeight(1);
+        fill('gray');
 
-        // Find closest objectTwo
-        let closest_enemy = null;
-        let closest_enemy_distance = Infinity;
+        /////////////////////////////
+        // Target Finding Sequence //
+        /////////////////////////////
 
-        // Find closest objectTwo
-        let closest_node = null;
-        let closest_node_distance = Infinity;
-
+        // find enemy within range first
         for (let enemy of enemies) {
             let distance = dist(object.x, object.y, enemy.x, enemy.y);
-            if (distance < closest_enemy_distance && distance < object.range) {
-                closest_enemy_distance = distance;
-                closest_enemy = enemy;
+            if (distance < object.target_enemy_distance && distance < object.current_search_range) {
+                object.target_enemy_distance = distance;
+                object.target_enemy = enemy;
+            }
+
+            if (object.target_enemy && !enemies.includes(object.target_enemy)) {
+                // reset everything if the target enemy is no longer active 
+                console.log("target is dead")
+                object.target_enemy = null;
+                object.target_enemy_distance = Infinity;
+                object.target_node = null;
+                object.target_node_distance = Infinity;
+                continue;
             }
         }
 
-        if (closest_enemy != null) {
-            this.movement_logic(closest_enemy, object);
-            if (object.colliding(closest_enemy)) {
-                // closest_enemy.health -= object.damage;
-                object.moveTowards(closest_enemy.x, closest_enemy.y, 0);
+        // if there is enemy within range
+        if (object.target_enemy != null) {
+
+            // go to that enemy
+            this.movement_logic(object.target_enemy, object);
+
+            // if they collide, do the following
+            if (object.colliding(object.target_enemy)) {
+
+                // object.target_enemy.health -= object.damage;
+                object.moveTowards(object.target_enemy.x, object.target_enemy.y, 0);
                 object.speed = 0;
-                if (object.collides(closest_enemy)) {
-                    // object.remove();
-                    closest_enemy.remove();
+                if (object.collides(object.target_enemy)) {
+                    // do damage or remove unit here
+                    object.target_enemy.remove();
+
+                    // reset everything if the target enemy is no longer active 
+                    object.target_enemy = null;
+                    object.target_enemy_distance = Infinity;
+                    object.target_node = null;
+                    object.target_node_distance = Infinity;
                 }
             }
+
+            // if there is no enemy within range, go to nodes
         } else {
-            // let angle = atan2(game.playerTwo[0].y - object.position.y, game.playerTwo[0].x - object.position.x);
-            // object.rotateTo(angle)
-            // if (object.rotation = angle) {
-            //     object.direction = angle;
-            //     object.speed = 2;
-            // }
-            
-            for (let node of game.nodes) {
-                let distance = dist(object.x, object.y, node.x, node.y);
-                if (distance < closest_node_distance) {
-                    closest_node_distance = distance;
-                    closest_node = node;
+
+            // if there is no node currently targeting
+            if (object.target_node == null) {
+                object.target_node_distance = Infinity;
+
+                // find the nearest node and add as a target
+                for (let node of nodes) {
+                    let distance = dist(object.x, object.y, node.x, node.y);
+                    if (distance < object.target_node_distance) {
+                        object.target_node_distance = distance;
+                        object.target_node = node;
+                    }
+                }
+
+                // if target node already exist
+            } else {
+
+                // and it is currently overlapping that node
+                if (object.overlaps(object.target_node)) {
+                    object.target_node_distance = Infinity;
+
+                    // find the next node and set it as target
+                    let next_node = nodes.find(n => n.id === object.target_node.id + 1 && n.side === object.target_node.side);
+                    if (next_node) {
+                        object.target_node = next_node;
+                    }
                 }
             }
-            this.movement_logic(closest_node, object);
 
-            if (object.overlaps(closest_node)) {
-                // let current_node = closest_node;
-                closest_node_distance = Infinity;
-                console.log()
-
-                // for (let node of game.nodes) {
-                //     let distance = dist(object.x, object.y, node.x, node.y);
-                //     if (distance < closest_node_distance) {
-                //         closest_node_distance = distance;
-                //         closest_node = node;
-                //     }
-                // }
-
-                // this.movement_logic(closest_node, object);
-            }
-            // if (game.nodes.length == object.target) {
-            //     object.target = game.nodes.length - 1;
-            // }
+            // move to the target node
+            this.movement_logic(object.target_node, object);
         }
-
-
     }
 
     apply_overlap(object) {
@@ -97,18 +123,30 @@ class Control {
     movement_logic(target, object) {
         let angle = atan2(target.y - object.position.y, target.x - object.position.x);
         object.rotateTo(angle)
+
+        // Guide line to indicate current targets
         stroke('red');
         strokeWeight(3);
         line(object.x, object.y, target.x, target.y);
         stroke('black');
         strokeWeight(1);
+
         if (object.rotation = angle) {
             object.direction = angle;
-            object.speed = 2;
+            object.speed = object.movement_speed;
         }
     }
 
-    shooting_physics() {
+    mode_switch_logic(object) {
+        // half search range of units between attack and defense mode
+        if (object.x >= W / 2) {
+            object.current_search_range = object.default_search_range;
+        } else {
+            object.current_search_range = object.default_search_range;
+        }
+    }
+
+    slingshot_logic() {
         let mouse_dragged = false;
         let source = game.playerOne[0];
         if (source.mouse.presses()) {
@@ -137,7 +175,6 @@ class Control {
         if (mouse.released()) {
 
         }
-        // console.log(mouse_dragged);
     }
 
     destroy_base() {
