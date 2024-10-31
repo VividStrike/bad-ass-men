@@ -100,10 +100,13 @@ class Control {
                     object.target_node_distance = Infinity;
 
                     // find the next node and set it as target
-                    let next_node = nodes.find(n => n.id === object.target_node.id + 1 && n.side === object.target_node.side);
+                    
+                    let next_node = nodes.find(n => n.id === object.target_node.id + object.teamswitch && n.side === object.target_node.side);
+                    
                     if (next_node) {
                         object.target_node = next_node;
                     }
+                
                 }
             }
 
@@ -122,7 +125,7 @@ class Control {
 
     movement_logic(target, object) {
         let angle = atan2(target.y - object.position.y, target.x - object.position.x);
-        object.rotateTo(angle)
+       object.rotateTo(angle)
 
         // Guide line to indicate current targets
         stroke('red');

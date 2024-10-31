@@ -117,11 +117,12 @@ class Factory {
     }
 
     //______ Unit: Melee ______//
-    createMeleeGuy(x, y, color) {
+    createMeleeGuy(x, y, color, teamswitch) {
         let object = new Sprite(x, y);
 
         // Visual Config
         // object.img = this.generic_sword_guy;
+        object.teamswitch = teamswitch;
         object.color = color;
         object.w = 20;
         object.h = 20;
@@ -143,11 +144,12 @@ class Factory {
     }
 
     //______ Unit: Range ______//
-    createRangeGuy(x, y, color) {
+    createRangeGuy(x, y, color, teamswitch) {
         let object = new Sprite(x, y);
 
         // Visual Config
         // object.img = this.generic_sword_guy;
+        object.teamswitch = teamswitch;
         object.color = color;
         object.d = 20;
         //object.debug = true;

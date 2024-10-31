@@ -38,15 +38,19 @@ class Game {
 
         // Test Spawning Units
         if (kb.presses('q')) {
-            let index = model.playerOne.push(factory.createMeleeGuy(mouse.x, mouse.y, 'blue'));
+            let index = model.playerOne.push(factory.createMeleeGuy(mouse.x, mouse.y, 'blue', 1));
             // model.playerOne.push(factory.createRange(model.playerOne[index-1].x, model.playerOne[index-1].y, 100));
         }
         if (kb.presses('w')) {
-            let index = model.playerOne.push(factory.createRangeGuy(mouse.x, mouse.y, 'blue'));
+            let index = model.playerOne.push(factory.createRangeGuy(mouse.x, mouse.y, 'blue', 1));
             // model.playerOne.push(factory.createRange(model.playerOne[index-1].x, model.playerOne[index-1].y, 100));
         }
-        if (kb.presses('e')) {
-            let index = model.playerTwo.push(factory.createMeleeGuy(mouse.x, mouse.y, 'red'));
+        if (kb.presses('o')) {
+            let index = model.playerTwo.push(factory.createMeleeGuy(mouse.x, mouse.y, 'red', -1));
+            // model.playerOne.push(factory.createRange(model.playerOne[index-1].x, model.playerOne[index-1].y, 100));
+        }
+        if (kb.presses('p')) {
+            let index = model.playerTwo.push(factory.createRangeGuy(mouse.x, mouse.y, 'red', -1));
             // model.playerOne.push(factory.createRange(model.playerOne[index-1].x, model.playerOne[index-1].y, 100));
         }
 
@@ -88,6 +92,24 @@ class Game {
         for (let i = 3; i < model.playerOne.length; i++) {
             if (model.playerOne[i].type == 2) {
                 control.apply_logic_to_units(model.playerOne[i], model.playerTwo, model.nodes);
+
+                // model.playerOne[i+1].x = model.playerOne[i].x;
+                // model.playerOne[i+1].y = model.playerOne[i].y;
+                // model.playerOne[i+1].overlaps(model.playerOne);
+
+
+                // for (let j = 0; j < model.playerTwo.length; j++ ) {
+                //     if (model.playerOne[4].overlaps(model.playerTwo[0])) {
+                //         console.log(j);
+                //     //     control.movement(model.playerTwo, j, model.playerOne[i+1]);
+                //     }
+                // }
+            }
+        }
+
+        for (let i = 3; i < model.playerTwo.length; i++) {
+            if (model.playerTwo[i].type == 2) {
+                control.apply_logic_to_units(model.playerTwo[i], model.playerOne, model.nodes);
 
                 // model.playerOne[i+1].x = model.playerOne[i].x;
                 // model.playerOne[i+1].y = model.playerOne[i].y;
