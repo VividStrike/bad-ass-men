@@ -31,6 +31,7 @@ class Factory {
         // object.debug = true;
         object.side = side;
         object.id = id;
+        object.type = 5;
 
         return object;
     }
@@ -48,20 +49,20 @@ class Factory {
         object.w = 100;
         object.h = 100;
         // visual
-        // object.draw = () => {
-        //     fill(color);
-        //     rect(0, 0, 100, 100);
-        //     textSize(20);
-        //     fill('black');
-        //     text(object.health, 0, 0);
-        // }
+        object.draw = () => {
+            fill(color);
+            rect(0, 0, 100, 100);
+            textSize(20);
+            fill('white');
+            text(object.health, -20, 0);
+        }
         // object.debug = true;
         object.layer = 3;
         object.collider = 's';
 
         // stats
         object.type = 1;
-        object.health = 100;
+        object.health = 1000;
 
         return object;
     }
@@ -73,19 +74,19 @@ class Factory {
         object.h = 100;
         object.rotation = rotate;
         // visual
-        // object.draw = () => {
-        //     fill(color);
-        //     rect(0, 0, 50, 100);
-        //     textSize(20);
-        //     fill('black');
-        //     text(object.health, 0, 0);
-        // }
+        object.draw = () => {
+            fill(color);
+            rect(0, 0, 50, 100);
+            textSize(20);
+            fill('white');
+            text(object.health, -20, 0);
+        }
         object.collider = 's';
         // object.debug = true;
 
         // stats
         object.type = 1;
-        object.health = 100;
+        object.health = 500;
 
         return object;
     }
@@ -107,25 +108,33 @@ class Factory {
         object.target_enemy_distance = Infinity;
 
         // unit stats
-        object.type = 2;                     // unit type (will always be 2 for units)
+        object.type = 2;                        // unit type (will always be 2 for units)
         object.health = health;                 // hit point / health
         object.armor = armor;                   // armor (reduce incoming damage)
         object.damage = damage;                 // damage (damage done per attack)
+        object.last_attack = null;              // attack timer
         object.attack_speed = attack_speed;     // attack speed (attacks per second)
         object.attack_range = attack_range;     // attack range (50 minimum especially melee units)
         object.movement_speed = movement_speed; // speed (normal should be 1)
     }
 
     //______ Unit: Melee ______//
-    createMeleeGuy(x, y, color, teamswitch) {
+    createMeleeGuy(x, y, color, team_switch) {
         let object = new Sprite(x, y);
 
         // Visual Config
         // object.img = this.generic_sword_guy;
-        object.teamswitch = teamswitch;
+        object.team_switch = team_switch;
         object.color = color;
         object.w = 20;
         object.h = 20;
+        object.draw = () => {
+            fill(color);
+            rect(0, 0, 20, 20);
+            textSize(10);
+            fill('white');
+            text(object.health, -10, -10);
+        }
         //object.debug = true;
 
         // Stats Config
@@ -133,9 +142,9 @@ class Factory {
             object, // object
             100,    // health
             2,      // armor
-            5,      // damage
+            10,      // damage
             1,      // attack_speed
-            50,     // attack_range
+            30,     // attack_range
             100,    // search_range
             1       // movement_speed
         );
@@ -144,14 +153,22 @@ class Factory {
     }
 
     //______ Unit: Range ______//
-    createRangeGuy(x, y, color, teamswitch) {
+    createRangeGuy(x, y, color, team_switch) {
         let object = new Sprite(x, y);
 
         // Visual Config
         // object.img = this.generic_sword_guy;
-        object.teamswitch = teamswitch;
+        object.team_switch = team_switch;
         object.color = color;
         object.d = 20;
+        object.draw = () => {
+            strokeWeight(0)
+            fill(color);
+            ellipse(0, 0, 20, 20);
+            textSize(10);
+            fill('white');
+            text(object.health, -10, -10);
+        }
         //object.debug = true;
 
         // Stats Config
@@ -161,7 +178,7 @@ class Factory {
             0,      // armor
             5,      // damage
             1,      // attack_speed
-            100,     // attack_range
+            150,     // attack_range
             150,    // search_range
             1       // movement_speed
         );

@@ -58,23 +58,25 @@ class Control {
             // go to that enemy
             this.movement_logic(object.target_enemy, object);
 
-            // if they collide, do the following
-            if (object.colliding(object.target_enemy)) {
+            this.deal_damage(object, object.target_enemy);
 
-                // object.target_enemy.health -= object.damage;
-                object.moveTowards(object.target_enemy.x, object.target_enemy.y, 0);
-                object.speed = 0;
-                if (object.collides(object.target_enemy)) {
-                    // do damage or remove unit here
-                    object.target_enemy.remove();
+            // // if they collide, do the following
+            // if (object.colliding(object.target_enemy)) {
 
-                    // reset everything if the target enemy is no longer active 
-                    object.target_enemy = null;
-                    object.target_enemy_distance = Infinity;
-                    object.target_node = null;
-                    object.target_node_distance = Infinity;
-                }
-            }
+            //     // object.target_enemy.health -= object.damage;
+            //     // object.moveTowards(object.target_enemy.x, object.target_enemy.y, 0);
+            //     object.speed = 0;
+            //     if (object.collides(object.target_enemy)) {
+            //         // do damage or remove unit here
+            //         object.target_enemy.remove();
+
+            //         // reset everything if the target enemy is no longer active 
+            //         object.target_enemy = null;
+            //         object.target_enemy_distance = Infinity;
+            //         object.target_node = null;
+            //         object.target_node_distance = Infinity;
+            //     }
+            // }
 
             // if there is no enemy within range, go to nodes
         } else {
@@ -100,13 +102,13 @@ class Control {
                     object.target_node_distance = Infinity;
 
                     // find the next node and set it as target
-                    
-                    let next_node = nodes.find(n => n.id === object.target_node.id + object.teamswitch && n.side === object.target_node.side);
-                    
+
+                    let next_node = nodes.find(n => n.id === object.target_node.id + object.team_switch && n.side === object.target_node.side);
+
                     if (next_node) {
                         object.target_node = next_node;
                     }
-                
+
                 }
             }
 
@@ -125,18 +127,60 @@ class Control {
 
     movement_logic(target, object) {
         let angle = atan2(target.y - object.position.y, target.x - object.position.x);
-       object.rotateTo(angle)
+        object.rotateTo(angle)
 
-        // Guide line to indicate current targets
-        stroke('red');
-        strokeWeight(3);
-        line(object.x, object.y, target.x, target.y);
-        stroke('black');
-        strokeWeight(1);
+
 
         if (object.rotation = angle) {
             object.direction = angle;
-            object.speed = object.movement_speed;
+
+            // calculate the effective range for targets as some target has bigger w and h
+            // and bigger sized sprite means the object with lower attack range cannot hit them 
+            let effective_range = object.attack_range + max(target.w, target.h) / 2;
+
+            // noFill();
+            // stroke('green');
+            // strokeWeight(5);
+            // circle(target.x, target.y, effective_range);
+            // stroke('black');
+            // strokeWeight(1);
+            // fill('gray');
+
+            if (dist(object.x, object.y, target.x, target.y) < effective_range && target.type != 5) {
+                object.speed = 0;
+            } else {
+                object.speed = object.movement_speed;
+            }
+        }
+    }
+
+    deal_damage(object, target) {
+
+
+        let current_time = millis();
+        let attack_interval = 1000 / object.attack_speed;
+
+        if (!object.last_attack) {
+            object.last_attack = 0;
+        }
+
+        let effective_range = object.attack_range + max(target.w, target.h) / 2;
+
+        if (dist(object.x, object.y, target.x, target.y) < effective_range &&
+            current_time - object.last_attack >= attack_interval) {
+            target.health -= object.damage;
+            object.last_attack = current_time;
+
+            // Guide line to indicate current targets
+            stroke('red');
+            strokeWeight(10);
+            line(object.x, object.y, target.x, target.y);
+            stroke('black');
+            strokeWeight(1);
+        }
+
+        if (target.health <= 0) {
+            target.remove();
         }
     }
 
