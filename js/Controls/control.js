@@ -1,3 +1,7 @@
+let angle = -2500;
+let direction = 1;
+let mode = false;
+
 class Control {
     constructor() {
 

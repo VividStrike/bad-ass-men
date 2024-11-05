@@ -22,6 +22,7 @@ class Game {
     draw() {
         background('gray');
         
+        
         // model.spawn_nodes1(, , 10, this.top_counter);
         // model.spawn_nodes1(this.topRight, this.bottomRight, 4, this.top_counter);
 
@@ -126,7 +127,7 @@ class Game {
         }
 
 
-        // control.slingshot_logic();
+        control.throw();
     }
 
 
