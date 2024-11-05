@@ -228,6 +228,30 @@ class Control {
         }
     }
 
+    throw() {
+        if (kb.presses('control')) {
+            console.log(mode)
+            mode = !mode; 
+        } 
+            
+        if(mode == true){
+        angle += direction * 20;  // This increases the speed of it moving up and down
+    
+        // Reverse direction when angle hits 0 or 180 degrees
+        if (angle > 2500 || angle < -2500) {
+            direction *= -1;
+        }
+    
+        console.log(angle)
+
+        // Draw the oscillating line
+        let length = 150;  // Length of the line
+        let endX = 100 + length * cos(radians(angle));
+        let endY = height / 2 + length * sin(radians(angle));
+        line(100, height / 2, endX, endY);
+        }
+        }
+
     destroy_base() {
 
     }
